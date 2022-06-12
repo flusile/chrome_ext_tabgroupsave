@@ -30,8 +30,6 @@ function backupNow(isAutomatic, backupID, callbackDone)
     var windowToBackup, windowTabs, bkpWindow;
     var tab, bkpTab;
 
-    // for (var grp in chrome.tagGroups)
-
     for (var i = 0; i < window_list.length; i++) 
     {
       console.log ('backupNow Window #' + i);
@@ -63,6 +61,8 @@ function backupNow(isAutomatic, backupID, callbackDone)
         {
             chrome.tabGroups.get(tab.groupId, function (tabGroup)
             {
+                // so, dass ist ja schon wieder eine async Funktion
+                // Wie kann ich hier auf das Ergebnis "warten", denn bevor die tabGroup-Daten nicht vorliegen, kann ich nicht weiter machen.
                 bkpWindow.groups.push(tabGroup);
             });
         }
