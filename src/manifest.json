@@ -22,6 +22,7 @@
     "alarms",
     "storage",
     "tabs",
-    "unlimitedStorage"
+    "unlimitedStorage",
+    "tabGroups"
   ]
 }
