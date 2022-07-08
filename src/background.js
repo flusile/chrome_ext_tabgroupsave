@@ -64,28 +64,30 @@ function backupNow(isAutomatic, backupID, callbackDone)
                 bkpWindow.tabs.push(bkpTab);
             }
 
-            // no try to get group details from async source
+            // now try to get group details from async source
             var operations = [];
             for (var gid in bkpWindow.groupIds) 
             {
-                operations[gid] = chrome.tabGroups.get(bkpWindow.groupIds[gid]);
+                operations.push(chrome.tabGroups.get(bkpWindow.groupIds[gid]));
             }
             console.log('waiting for operations');
-            Promise.all(operations).then(() => {
+            Promise.all(operations).then(values => {
                 console.log('all operations completed 1');
-                for (var gid in operations) 
+                for (var i in values) 
                 {
-                    console.log('got details for group id ' + gid);
-                    console.log(operations[gid]);
+                    gid = values[i];
+                    console.log('got details for group id ' + gid.id);
+                    console.log(gid.collapsed);
+                    console.log(gid.color);
+                    console.log(gid.title);
+                    console.log(gid.windowId);
                 }
                 console.log('saving fullbackup');
                 fullBackup.totNumTabs += windowTabs.length;
                 fullBackup.windows.push(bkpWindow);
-            }).catch(() => {
-                console.log('oops, catch');
-                //console.log(reason);
+                console.log('all operations completed 2');
+                isCreatingBackup = false;
             });
-            console.log('all operations completed 2');
         }
 
         /*
